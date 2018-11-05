@@ -6,7 +6,8 @@ import os
 import csv
 import time
 import sys
-sys.path.append("C:/MOOCs/CS 7641/proj2/ABAGAIL.jar")
+sys.path.append("/Users/lijiang/Dropbox (GaTech)/github_repositories/CS-7641-assignment-2/ABAGAIL/ABAGAIL.jar")
+import pdb
 from func.nn.backprop import BackPropagationNetworkFactory
 from shared import SumOfSquaresError, DataSet, Instance
 from opt.example import NeuralNetworkOptimizationProblem
@@ -23,7 +24,7 @@ HIDDEN_LAYER2 = 62
 HIDDEN_LAYER3 = 62
 OUTPUT_LAYER = 1
 TRAINING_ITERATIONS = 5001
-OUTFILE = './NN_OUTPUT/RHC_LOG.txt'
+OUTFILE = '/Users/lijiang/Desktop/yichuan_HW/RHC_LOG.txt'
 
 
 def initialize_instances(infile):
@@ -33,8 +34,11 @@ def initialize_instances(infile):
     # Read in the CSV file
     with open(infile, "r") as dat:
         reader = csv.reader(dat)
-
+        i=0
         for row in reader:
+            if i==0:
+                i = 1
+                continue
             instance = Instance([float(value) for value in row[:-1]])
             instance.setLabel(Instance(0 if float(row[-1]) < 0 else 1))
             instances.append(instance)
@@ -86,9 +90,10 @@ def train(oa, network, oaName, training_ints,validation_ints,testing_ints, measu
 
 def main():
     """Run this experiment"""
-    training_ints = initialize_instances('m_trg.csv')
-    testing_ints = initialize_instances('m_test.csv')
-    validation_ints = initialize_instances('m_val.csv')
+    pdb.set_trace()
+    training_ints = initialize_instances('/Users/lijiang/Desktop/yichuan_HW/Archive/train.csv')
+    testing_ints = initialize_instances('/Users/lijiang/Desktop/yichuan_HW/Archive/test.csv')
+    validation_ints = initialize_instances('/Users/lijiang/Desktop/yichuan_HW/Archive/validation.csv')
     factory = BackPropagationNetworkFactory()
     measure = SumOfSquaresError()
     data_set = DataSet(training_ints)
@@ -103,6 +108,7 @@ def main():
 
 
 if __name__ == "__main__":
+    #
     with open(OUTFILE,'w') as f:
         f.write('{},{},{},{},{},{},{},{}\n'.format('iteration','MSE_trg','MSE_val','MSE_tst','acc_trg','acc_val','acc_tst','elapsed'))
     main()
